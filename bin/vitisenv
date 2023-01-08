@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+if [ -z "$XILINX_INSTALL_DIR" ]; then
+  XILINX_INSTALL_DIR="/tools/Xilinx"
+fi
+
+if [ -z "$VITISENV_ROOT" ]; then
+  VITISENV_ROOT="~/.vitisenv"
+fi
+
+command="$1"
+shift 1
+case "$command" in
+"" )
+  echo "usage: vitisenv <command>"
+  ;;
+version-file )
+  vitisenv-version-file
+  ;;
+version )
+  cat `vitisenv-version-file`
+  ;;
+versions )
+  ls $XILINX_INSTALL_DIR/Vitis
+  ;;
+local )
+  if [ -n "$1" ]; then
+    echo "$1" > .vitis-version
+  fi
+  ;;
+global )
+  if [ -n "$1" ]; then
+    echo "$1" > $VITISENV_ROOT/version
+  fi
+  ;;
+esac

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [ -z "${XILINX_INSTALL_DIR}" ]; then
+  XILINX_INSTALL_DIR="/tools/Xilinx"
+fi
+
+CMD_NAME=`basename $0`
+if [ "$CMD_NAME" = vitisenv-exec ]; then
+  echo "vitisenv-exec cannot be called directly"
+  exit 1
+fi
+
+VERSION_FILE=`vitisenv-version-file`
+VITIS_VERSION=`cat $VERSION_FILE`
+SETTING_FILE=$XILINX_INSTALL_DIR/Vitis/$VITIS_VERSION/settings64.sh
+if [ -e $SETTING_FILE ]; then
+  source $SETTING_FILE
+  $CMD_NAME $@
+fi

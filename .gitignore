@@ -1,0 +1,11 @@
+.*
+!.gitignore
+
+_*
+*_
+*_.*
+
+version
+
+*.log
+*.pb

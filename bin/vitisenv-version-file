@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# 下記を参考に vitis 用に改造
+# https://github.com/pyenv/pyenv/blob/master/libexec/pyenv-version-file
+
+
+target_dir="$1"
+
+find_local_version_file() {
+  local root="$1"
+  while ! [[ "$root" =~ ^//[^/]*$ ]]; do
+    if [ -f "${root}/.vitis-version" ]; then
+      echo "${root}/.vitis-version"
+      return 0
+    fi
+    [ -n "$root" ] || break
+    root="${root%/*}"
+  done
+  return 1
+}
+
+if [ -n "$target_dir" ]; then
+  find_local_version_file "$target_dir"
+else
+  find_local_version_file "$VITISENV_DIR" || {
+    [ "$VITISENV_DIR" != "$PWD" ] && find_local_version_file "$PWD"
+  } || echo "${VITISENV_ROOT}/version"
+fi
