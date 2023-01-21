@@ -1,6 +1,8 @@
+## 概要
 
+Xilinx の FPGA 開発ツールである Vitis/Vivado の複数バージョンをインストールしているLinux環境で、ディレクトリ移動で自動的にバージョンを切り替えるようにする為のツールです。
 
-# インストール
+## インストール
 
 GitHub から インストール できます。
 
@@ -19,7 +21,7 @@ export PATH="$VITISENV_ROOT/bin:$PATH"
 ```
 
 
-# 使い方
+## 使い方
 
 まず、デフォルトのバージョンを設定します。
 
@@ -40,11 +42,13 @@ set_vitis 2019.2
 ```
 
 
-# 例
+## 例
 
 下記のような動き方をする。
 
 ```
+$ vitisenv versions
+2019.2  2021.2  2022.2
 $ vitisenv global 2021.2
 $ vitis -version
 
