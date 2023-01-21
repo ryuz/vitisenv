@@ -13,6 +13,12 @@ shift 1
 case "$command" in
 "" )
   echo "usage: vitisenv <command>"
+  echo "Some useful vitisenv commands are:"
+  echo "   global       Set the global Vitis/Vivado version"
+  echo "   local        Set local application-specific Vitis/Vivado version"
+  echo "   version      Show the current Vitis/Vivado version"
+  echo "   versions     List all Vitis versions"
+  echo "   version-file Detect the file that sets the current vitisenv version"
   ;;
 version-file )
   vitisenv-version-file
@@ -33,4 +39,6 @@ global )
     echo "$1" > $VITISENV_ROOT/version
   fi
   ;;
+* )
+  echo "vitisenv: no such command '$command'"
 esac
