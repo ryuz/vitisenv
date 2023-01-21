@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-echo 
+if [ -z "${VITIS_VERSION}" ]; then
+    VERSION_FILE=`vitisenv-version-file`
+    VITIS_VERSION=`cat $VERSION_FILE`
+fi
+
+echo ${VITIS_VERSION}

@@ -24,7 +24,10 @@ version-file )
   vitisenv-version-file
   ;;
 version )
-  cat `vitisenv-version-file`
+  vitisenv-version
+  ;;
+exec )
+  vitisenv-exec $@
   ;;
 versions )
   ls $XILINX_INSTALL_DIR/Vitis
