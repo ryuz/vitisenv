@@ -5,7 +5,7 @@ if [ -z "$XILINX_INSTALL_DIR" ]; then
 fi
 
 if [ -z "$VITISENV_ROOT" ]; then
-  VITISENV_ROOT="~/.vitisenv"
+  VITISENV_ROOT="$HOME/.vitisenv"
 fi
 
 command="$1"

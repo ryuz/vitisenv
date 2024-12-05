@@ -6,6 +6,10 @@
 
 target_dir="$1"
 
+if [ -z "$VITISENV_ROOT" ]; then
+  VITISENV_ROOT="$HOME/.vitisenv"
+fi
+
 find_local_version_file() {
   local root="$1"
   while ! [[ "$root" =~ ^//[^/]*$ ]]; do
