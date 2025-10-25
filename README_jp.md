@@ -6,16 +6,13 @@ Xilinx の FPGA 開発ツールである Vitis/Vivado の複数バージョン�
 
 GitHub から インストール できます。
 
-```
+```bash
 git clone https://github.com/ryuz/vitisenv.git ~/.vitisenv
 ```
 
 とした後に .bashrc に下記を追加してください。
 
-```
-function set_vitis() {
-    export VITIS_VERSION=$1
-}
+```bash
 export VITISENV_ROOT="$HOME/.vitisenv"
 export PATH="$VITISENV_ROOT/bin:$PATH"
 ```
@@ -25,19 +22,19 @@ export PATH="$VITISENV_ROOT/bin:$PATH"
 
 まず、デフォルトのバージョンを設定します。
 
-```
+```bash
 vitisenv global 2021.2
 ```
 
 特定のディレクトリ以下で自動でバージョンを切り替えるためには下記のようにします。
 
-```
+```bash
 vitisenv local 2022.2
 ```
 
 環境変数 VITIS_VERSION を設定することで、一時的に切り替えることも出来ます。
 
-```
+```bash
 set_vitis 2019.2
 ```
 
@@ -46,7 +43,7 @@ set_vitis 2019.2
 
 下記のような動き方をする。
 
-```
+```bash
 $ vitisenv versions
 2019.2  2021.2  2022.2
 $ vitisenv global 2021.2
@@ -96,4 +93,21 @@ $ vitis -version
     ** Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 
 ```
+
+## カスタムプロンプト
+
+.bashrc などで現在の Vitis バージョンをプロンプトに表示するように設定することもできる。
+
+下記は一例だが、好みに応じてカスタマイズできる。
+
+```bash
+function parse_vitis_version {
+    vitisenv version
+}
+PS1="[vitis\$(parse_vitis_version)] \u@v\h\w \$ "
+```
+
+## ライセンス
+
+このプロジェクトは MIT ライセンスの下で公開されています。
 

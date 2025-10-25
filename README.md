@@ -1,49 +1,49 @@
-## Abstract
+日本語版は[こちら](README_jp.md)
 
-This tool is for Linux environments where multiple versions of Vitis/Vivado, Xilinx's FPGA development tool, are installed, so that the version can be automatically switched by moving directories.
+## Overview
+
+A tool for automatically switching versions of Xilinx FPGA development tools (Vitis/Vivado) by directory navigation in Linux environments with multiple versions installed.
 
 ## Installation
 
-Install from GitHub
+Install from GitHub:
 
-```
+```bash
 git clone https://github.com/ryuz/vitisenv.git ~/.vitisenv
 ```
 
-Add the following to .bashrc
+Then add the following to your `.bashrc`:
 
-```
-function set_vitis() {
-    export VITIS_VERSION=$1
-}
+```bash
 export VITISENV_ROOT="$HOME/.vitisenv"
 export PATH="$VITISENV_ROOT/bin:$PATH"
 ```
 
-
 ## Usage
 
-First, set the default version.
+First, set the default version:
 
-```
+```bash
 vitisenv global 2021.2
 ```
 
-To automatically switch versions of a working directory, do the following.
+To automatically switch versions in specific directories:
 
-```
+```bash
 vitisenv local 2022.2
 ```
 
-It is also possible to switch temporarily by setting the environment variable VITIS_VERSION.
+You can also temporarily switch by setting the VITIS_VERSION environment variable:
 
-```
+```bash
 set_vitis 2019.2
 ```
 
-## Exsample
+## Example
 
-```
+Here's how it works:
+
+```bash
 $ vitisenv versions
 2019.2  2021.2  2022.2
 $ vitisenv global 2021.2
@@ -94,3 +94,19 @@ $ vitis -version
 
 ```
 
+## Custom Prompt
+
+You can configure your prompt to display the current Vitis version in `.bashrc`.
+
+Here's an example (customize to your preference):
+
+```bash
+function parse_vitis_version {
+    vitisenv version
+}
+PS1="[vitis\$(parse_vitis_version)] \u@v\h\w \$ "
+```
+
+## License
+
+This project is licensed under the MIT License.

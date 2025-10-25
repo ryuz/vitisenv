@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# 下記を参考に vitis 用に改造
-# https://github.com/pyenv/pyenv/blob/master/libexec/pyenv-version-file
-
-
 target_dir="$1"
 
 if [ -z "$VITISENV_ROOT" ]; then
