@@ -14,9 +14,17 @@ fi
 
 VITIS_VERSION=`vitisenv-version`
 SETTING_FILE=$XILINX_INSTALL_DIR/Vitis/$VITIS_VERSION/settings64.sh
-if [ -e $SETTING_FILE ]; then
-  source $SETTING_FILE
+if [ -e "$SETTING_FILE" ]; then
+  source "$SETTING_FILE"
   $CMD_NAME $@
 else
-  echo "$SETTING_FILE is not found."
+  # Fallback: try Vivado location
+  ALT_SETTING_FILE=$XILINX_INSTALL_DIR/Vivado/$VITIS_VERSION/settings64.sh
+  if [ -e "$ALT_SETTING_FILE" ]; then
+    source "$ALT_SETTING_FILE"
+    $CMD_NAME $@
+  else
+    echo "$SETTING_FILE is not found."
+    echo "$ALT_SETTING_FILE is not found."
+  fi
 fi

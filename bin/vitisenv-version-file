@@ -28,5 +28,51 @@ if [ -n "$target_dir" ]; then
 else
   find_local_version_file "$VITISENV_DIR" || {
     [ "$VITISENV_DIR" != "$PWD" ] && find_local_version_file "$PWD"
-  } || echo "${VITISENV_ROOT}/version"
+  } || {
+    # If ${VITISENV_ROOT}/version exists, return it. Otherwise try to auto-detect
+    VERSION_FILE="${VITISENV_ROOT}/version"
+    if [ -f "$VERSION_FILE" ]; then
+      echo "$VERSION_FILE"
+    else
+      # Determine XILINX_INSTALL_DIR if not set
+      if [ -z "${XILINX_INSTALL_DIR}" ]; then
+        XILINX_INSTALL_DIR="/tools/Xilinx"
+      fi
+
+      detect_latest_version_dir() {
+        local base="$1"
+        [ -d "$base" ] || return 1
+        # List directories that look like version numbers (e.g., 2024.2, 2023.2)
+        # Use sort -V to get natural version ordering
+        local best=""
+        while IFS= read -r -d $'\0' d; do
+          d=${d%/}
+          v=${d##*/}
+          # simple validation: start with 4 digits or digits.digits
+          if [[ "$v" =~ ^[0-9]{4}(\.[0-9]+)?$ || "$v" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            best="$best\n$v"
+          fi
+        done < <(find "$base" -maxdepth 1 -mindepth 1 -type d -print0)
+        if [ -n "$best" ]; then
+          # printf the list, sort and take last
+          latest=$(printf "%b" "$best" | sort -V | tail -n 1)
+          echo "$latest"
+          return 0
+        fi
+        return 1
+      }
+
+      latest_version=""
+      if latest_version=$(detect_latest_version_dir "$XILINX_INSTALL_DIR/Vitis"); then
+        echo "$latest_version" > "$VERSION_FILE"
+        echo "$VERSION_FILE"
+      elif latest_version=$(detect_latest_version_dir "$XILINX_INSTALL_DIR/Vivado"); then
+        echo "$latest_version" > "$VERSION_FILE"
+        echo "$VERSION_FILE"
+      else
+        # fallback to VERSION_FILE path even if missing
+        echo "$VERSION_FILE"
+      fi
+    fi
+  }
 fi
