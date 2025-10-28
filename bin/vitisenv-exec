@@ -14,6 +14,8 @@ fi
 
 VITIS_VERSION=`vitisenv-version`
 if [ -z "${VITIS_VERSION}" ]; then
+  echo "Error: vitisenv version not found."
+else
   SETTING_FILE=$XILINX_INSTALL_DIR/Vitis/$VITIS_VERSION/settings64.sh
   if [ -e "$SETTING_FILE" ]; then
     source "$SETTING_FILE"
@@ -29,6 +31,4 @@ if [ -z "${VITIS_VERSION}" ]; then
       echo "$ALT_SETTING_FILE is not found."
     fi
   fi
-else
-  echo "Error: vitisenv version not found."
 fi
